@@ -12,7 +12,17 @@ The **Datasets** folder contains both the original datasets (**Starting Datasets
 
 The **Preprocessing** folder includes two scripts for injecting missing values into the datasets in the **Starting_Datasets** folder:
 
-- **injector.py**: Injects missing values according to the MCAR (Missing Completely at Random) mechanism.
+- **injector.py**: Injects missing values according to the MCAR (Missing Completely at Random) mechanism. The parameters of the script are the following:
+
+```
+dataset = 'Air'              # Name of the datasets
+delimiter = ';'              # Delimiter of the dataset
+percentages = [5,10,20]      # Missing rates 
+lengths=[3000]               # Lenght of the series
+columns=[13]                 # Number of columns/dimensions
+iterations = [1]             # This is just a number that will be included in the output file's name, so it is possible to generate different version of the same dataset with the same missing rates
+null_value = '?'             # The missing value will be represented with "?"
+```
 - **injector_block.py**: Injects missing values based on the MNAR (Missing Not At Random) mechanism. Specifically, this script simulates sensor malfunctions by introducing consecutive missing values for a randomly determined time period.
 
 Both scripts save the resulting datasets in the **Missing Datasets** folder. Additionally, removed values and their original positions are stored in the **Initial_Tuples** folder. These files are necessary for running the imputation algorithm.
