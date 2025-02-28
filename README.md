@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/8c2d8387-cc84-4713-9443-810a4167b8ad)# RIFT
+RIFT
 
  **Work in progress**
 
