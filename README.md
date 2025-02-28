@@ -1,5 +1,6 @@
 # RIFT
 
+ **Work in progress**
 
 This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for Multivariate Time Series*.
 
