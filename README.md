@@ -8,8 +8,8 @@ This repository contains supplemental material related to the paper *RIFT: RFD-b
 
 The **Datasets** folder contains both the original datasets (**Starting Datasets** folder) and the datasets with missing values (**Missing Datasets** folder), which were used for the experimental evaluation described in the paper.
 
-The name of the original datasets is composed as follows: "{name}_{length}_{number of dimensions}.csv". 
-The name of the missing datasets is composed as follows: "{name}_{length}_{number of dimensions}_{number of missing values}_{version}.csv".
+The name of the original datasets is composed as follows: "{name}\_{length}\_{number of dimensions}.csv". 
+The name of the missing datasets is composed as follows: "{name}\_{length}\_{number of dimensions}\_{number of missing values}\_{version}.csv".
 
 ## MISSING VALUES INJECTION
 
