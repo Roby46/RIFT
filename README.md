@@ -8,6 +8,9 @@ This repository contains supplemental material related to the paper *RIFT: RFD-b
 
 The **Datasets** folder contains both the original datasets (**Starting Datasets** folder) and the datasets with missing values (**Missing Datasets** folder), which were used for the experimental evaluation described in the paper.
 
+The name of the original datasets is composed as follows: "{name}_{length}_{number of dimensions}.csv". 
+The name of the missing datasets is composed as follows: "{name}_{length}_{number of dimensions}_{number of missing values}_{version}.csv".
+
 ## MISSING VALUES INJECTION
 
 The **Preprocessing** folder includes two scripts for injecting missing values into the datasets in the **Starting_Datasets** folder:
@@ -34,7 +37,7 @@ Both scripts save the resulting datasets in the **Missing Datasets** folder. Add
 
 The **Clustering** folder contains scripts for implementing the first two steps of the RIFT framework:
 
-- **Clustering_Balanced.py**: Implements the clustering strategy used in the paper. It partitions the multivariate time series into clusters based on correlations between dimensions while balancing the size of the resulting clusters.
-- **Clustering_rows.py**: Implements the clustering strategy used in step 2 of the framework, selecting the *k* most representative time instants.
+- **Dimensions_Clustering.py**: Implements the clustering strategy used in the paper. It partitions the multivariate time series into clusters based on correlations between dimensions while balancing the size of the resulting clusters.
+- **Time_Instants_Clustering.py**: Implements the clustering strategy used in step 2 of the framework, selecting the *k* most representative time instants.
 
 Both scripts save the processed data in the **Missing Datasets** folder, inside the subfolder corresponding to the dataset they were applied to.
