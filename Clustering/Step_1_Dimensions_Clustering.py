@@ -77,7 +77,7 @@ def merge_small_clusters(small_cluster, other_clusters, correlation_matrix, min_
 
 # Parameters and dataset name
 min_cluster_size = 6
-max_cluster_size = 13
+max_cluster_size = 14
 dataset_name = 'S4-ADL5-MNAR_20000_130'
 dataset_name_MV = f'{dataset_name}_260000_1'
 

@@ -4,6 +4,13 @@ RIFT
 
 This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for Multivariate Time Series*.
 
+## FULL EXPERIMENTAL EVALUATION
+
+In the following, we provide the complete experimental results, which were partially omitted in the paper due to space constraints.  
+
+<img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
+
+
 ## DATASETS
 
 The **Datasets** folder contains both the original datasets (**Starting Datasets** folder) and the datasets with missing values (**Missing Datasets** folder), which were used for the experimental evaluation described in the paper.

@@ -75,12 +75,12 @@ def cluster_and_save(input_file, output_file, k, dataset_type, nome_output, cate
     # Find the specific header based on the dataset name
     colonne = None
     for header in headers:
-        if header[-1] == nome_dataset_MV:  # The last value is the dataset name
+        if header[-1] == dataset_name_MV:  # The last value is the dataset name
             colonne = [col for col in header[:-1] if col]  # Exclude the last element and remove empty values
             break
 
     if colonne is None:
-        raise ValueError(f"Header for dataset '{nome_dataset_MV}' not found in the header file.")
+        raise ValueError(f"Header for dataset '{dataset_name_MV}' not found in the header file.")
 
     # Read the dataset
     data = pd.read_csv(input_file, sep=';')
@@ -148,23 +148,26 @@ def cluster_and_save(input_file, output_file, k, dataset_type, nome_output, cate
     print(f"Medoids saved in {output_file}. Medoid indices: {medoid_indices}")
 
 
+
+dataset_name = 'S4-ADL5-MNAR_20000_130'
+MVs=520000
+version=1
+dataset_name_MV = f'{dataset_name}_{MVs}_{version}_Balanced_cluster_10'
 # List of k values for clustering
 k_arr = [100, 300, 500, 1000]
+dataset_type = "numeric"
 
 # Main execution loop
 if __name__ == "__main__":
     for k in k_arr:
-        nome_dataset = 'S4-ADL5-MNAR_20000_130'
-        nome_dataset_MV = f'{nome_dataset}_520000_1_Balanced_cluster_10'
-        nome_dataset_output = f"{nome_dataset_MV}_{k}_row_clustering"
+        output_dataset_name = f"{dataset_name_MV}_{k}_row_clustering"
 
-        input_file = f"../Datasets/Missing_Datasets/{nome_dataset}/{nome_dataset}_520000_1/{nome_dataset_MV}.csv"
-        output_file = f"../Datasets/Missing_Datasets/{nome_dataset}/{nome_dataset}_520000_1/{nome_dataset_output}.csv"
+        input_file = f"../Datasets/Missing_Datasets/{dataset_name}/{dataset_name}_{MVs}_{version}/{dataset_name_MV}.csv"
+        output_file = f"../Datasets/Missing_Datasets/{dataset_name}/{dataset_name}_{MVs}_{version}/{output_dataset_name}.csv"
 
         # set dataset_type to "numeric" if all the dimensions are numeric, otherwise use "mixed" if there are textual values
-        dataset_type = "numeric"
         # positions of dimensions with textual values. [0,3,5] are for the Telemetry dataset
         categorical_columns = [0, 3, 5]
 
         # Run clustering and save medoids
-        cluster_and_save(input_file, output_file, k, dataset_type, nome_dataset_output, categorical_columns)
+        cluster_and_save(input_file, output_file, k, dataset_type, output_dataset_name, categorical_columns)

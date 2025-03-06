@@ -43,13 +43,13 @@ def generate_inviolable_indices(df_length, n):
     second_half = random.sample(range(df_length // 2, df_length), n)
     return set(first_half + second_half)
 
+dataset = 'Air'
+delimiter = ';'
 percentages = [5,10,20]
 lengths=[3000]
 columns=[13]
 iterations = [1]
 null_value = '?'
-delimiter = ';'
-dataset = 'Air'
 
 for length in lengths:
     for column_number in columns:
