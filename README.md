@@ -27,6 +27,7 @@ In the following, we provide the complete experimental results, which were parti
 
 The Figures above show the Precision and Recall values of the baselines approaches withand without applying RIFT as a pre-processing step. Furthermore, the figure also reports the same metrics for RIFT as a stand-alone approach.
 
+<img src="Full Experimental Evaluation/Legend.png" alt="...">
 <img src="Full Experimental Evaluation/Imputation RMSE.png" alt="...">
 
 In addition to evaluating the proposed approach in quantitative terms, we also investigated the quality of the imputations obtained. The Figure above shows the RMSE of RIFT and of the baselines approaches withand without applying it as a pre-processing step.
