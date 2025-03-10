@@ -8,15 +8,26 @@ This repository contains supplemental material related to the paper *RIFT: RFD-b
 
 In the following, we provide the complete experimental results, which were partially omitted in the paper due to space constraints.  
 
+### Influence of the k parameter
+
 <img src="Full Experimental Evaluation/k Effect.png" alt="...">
+
+### Scalability evaluation
 
 <img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
 
 <img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
 
+### Comparison with the state of the art
+
 <img src="Full Experimental Evaluation/Imputation part 1.png" alt="...">
 
 <img src="Full Experimental Evaluation/Imputation part 2.png" alt="...">
+
+### Experiment with MNAR assumption
+
+<img src="Full Experimental Evaluation/MNAR Experiment.png" alt="...">
+
 
 
 
