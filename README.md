@@ -8,7 +8,16 @@ This repository contains supplemental material related to the paper *RIFT: RFD-b
 
 In the following, we provide the complete experimental results, which were partially omitted in the paper due to space constraints.  
 
+<img src="Full Experimental Evaluation/k Effect.png" alt="...">
+
 <img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
+
+<img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
+
+<img src="Full Experimental Evaluation/Imputation part 1.png" alt="...">
+
+<img src="Full Experimental Evaluation/Imputation part 2.png" alt="...">
+
 
 
 ## DATASETS
