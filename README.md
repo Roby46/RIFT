@@ -40,6 +40,8 @@ In addition to evaluating the proposed approach in quantitative terms, we also i
 
 ### Experiment with MNAR assumption
 
+<img src="Full Experimental Evaluation/Legend.png" alt="...">
+
 <img src="Full Experimental Evaluation/MNAR Experiment.png" alt="...">
 
 In addition to our main experiments conducted under the MAR assumption, we performed a complementary evaluation on the Opportunity dataset to investigate Missing Not at Random (MNAR) scenarios. More specifically, we injected missing values by simulating sensor failures for a random period of time, until reaching a missing rate percentage of 5%, 10%, and 20%. The figure above shows the results in terms of Precision, Recall, and RMSE. By comparing the latter with those under the MAR assumption, it is possible to generally notice a similar behavior of all metrics, even with a slight degradation due to the more complex scenario. However, only SPLINE, BFILL, and FFILL showed a significant drop in both Precision and Recall.
@@ -50,6 +52,8 @@ As regards the proposed approach, RIFT showed a similar behavior, providing few 
 
 
 ### Execution times
+
+<img src="Full Experimental Evaluation/Legend Short.png" alt="...">
 
 <img src="Full Experimental Evaluation/Imputation time comparison.png" alt="...">
 
