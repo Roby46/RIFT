@@ -17,6 +17,11 @@ In the following, we provide the complete experimental results, which were parti
 
 The Figure above shows the details of the datasets employed in our evaluation. 
 
+### Evaluation metrics
+
+To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, let _tr_ be the number of correct imputations, _imp_ the numberof imputations performed and _miss_ be the number of MVs originally present inthe dataset, then:
+
+<img src="Full Experimental Evaluation/Evaluation Metrics.png" alt="...">
 
 ### Scalability evaluation
 
