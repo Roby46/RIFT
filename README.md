@@ -8,6 +8,12 @@ This repository contains supplemental material related to the paper *RIFT: RFD-b
 
 In the following, we provide the complete experimental results, which were partially omitted in the paper due to space constraints.  
 
+### Datasets details
+
+<img src="Full Experimental Evaluation/Datasets.png" alt="...">
+
+The Figure above shows the details of the datasets employed in our evaluation. 
+
 ### Influence of the k parameter
 
 <img src="Full Experimental Evaluation/k Effect.png" alt="...">
@@ -46,6 +52,8 @@ As regards the proposed approach, RIFT showed a similar behavior, providing few 
 ### Execution times
 
 <img src="Full Experimental Evaluation/Imputation time comparison.png" alt="...">
+
+The Figure above shows the average execution time of the baselines with and without the application of RIFT on all the configurations of each dataset. 
 
 
 ## DATASETS
