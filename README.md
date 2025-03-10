@@ -14,15 +14,20 @@ In the following, we provide the complete experimental results, which were parti
 
 The Figure above shows the details of the datasets employed in our evaluation. 
 
-### Influence of the k parameter
-
-<img src="Full Experimental Evaluation/k Effect.png" alt="...">
 
 ### Scalability evaluation
 
 <img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
 
+The Figure above shows the effect of the clustering strategy (Step 1 & 2 of RIFT) on the discovery times. The scale-up values marked with an asterisk are computed by considering the Time Limit (5 hrs).
+
 <img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
+
+### Influence of the k parameter
+
+<img src="Full Experimental Evaluation/k Effect.png" alt="...">
+
+The Figure above shows the effects of varying the k parameter of RIFT, i.e., the number of representative time instants (medoids) used for discoverying RFDs. 
 
 ### Comparison with the state of the art
 <img src="Full Experimental Evaluation/Legend.png" alt="...">
