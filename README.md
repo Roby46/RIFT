@@ -19,6 +19,7 @@ In the following, we provide the complete experimental results, which were parti
 <img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
 
 ### Comparison with the state of the art
+<img src="Full Experimental Evaluation/Legend.png" alt="...">
 
 <img src="Full Experimental Evaluation/Imputation part 1.png" alt="...">
 
@@ -36,6 +37,10 @@ This degradation is due to the fact that, unlike the MAR scenario where missing 
 
 As regards the proposed approach, RIFT showed a similar behavior, providing few but very precise imputations. Even in this scenario, by applying RIFT as a pre-processing step, we were able to improve the baselines’ imputations, with an average improvement of 4.36% for Precision and Recall, respectively, and an average reduction of 6.74% for the RMSE.
 
+
+### Execution times
+
+<img src="Full Experimental Evaluation/Imputation time comparison.png" alt="...">
 
 
 ## DATASETS
