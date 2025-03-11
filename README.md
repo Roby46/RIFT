@@ -15,7 +15,7 @@ In the following, we provide the complete experimental results, which were parti
 
 <img src="Full Experimental Evaluation/Datasets.png" alt="...">
 
-The Figure above shows the details of the datasets employed in our evaluation. 
+The Figure above shows the details of the datasets employed in our evaluation, also reporting the total number of Missing Values for each configuration. These datasets were selected to cover different domains, such as human activity recognition, environmental sensing, industrial automation, and air quality monitoring (i.e., Opportunity, Telemetry, Genesis,and Air Quality, resp.).
 
 ### Evaluation metrics
 
