@@ -1,4 +1,4 @@
-RIFT
+# RIFT: RFD-based Imputation Framework for Multivariate Time Series
 
  **Work in progress**
 
