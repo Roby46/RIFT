@@ -1,11 +1,11 @@
-# RIFT: RFD-based Imputation Framework for Multivariate Time Series
+# RIFT: RFD-based Imputation Framework for Time Series
 
  **Work in progress**
 
  <img src="Full Experimental Evaluation/Overview.png" alt="...">
 
 
-This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for Multivariate Time Series*.
+This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for  Time Series*.
 
 ## FULL EXPERIMENTAL EVALUATION
 
