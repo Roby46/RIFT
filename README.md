@@ -1,9 +1,6 @@
 # RIFT: RFD-based Imputation Framework for Time Series
 
- **Work in progress**
-
  <img src="Full Experimental Evaluation/Overview.png" alt="...">
-
 
 This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for  Time Series*.
 
@@ -30,6 +27,8 @@ To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, l
 The Figure above shows the effect of the clustering strategy (Step 1 & 2 of RIFT) on the discovery times. The scale-up values marked with an asterisk are computed by considering the Time Limit (5 hrs).
 
 <img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
+
+The Figure above shows the effect of the RFD time decay mechanism (Step 3 of RIFT) in the imputation time. 
 
 ### Influence of the k parameter
 
