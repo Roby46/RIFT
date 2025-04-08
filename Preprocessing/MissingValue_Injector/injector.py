@@ -38,11 +38,6 @@ def write_row_to_csv(file_path, row_data):
         writer = csv.writer(file, delimiter=';')
         writer.writerow(row_data)
 
-def generate_inviolable_indices(df_length, n):
-    first_half = random.sample(range(0, df_length // 2), n)
-    second_half = random.sample(range(df_length // 2, df_length), n)
-    return set(first_half + second_half)
-
 dataset = 'Air'
 delimiter = ';'
 percentages = [5,10,20]
