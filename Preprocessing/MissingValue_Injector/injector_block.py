@@ -13,10 +13,6 @@ def determine_column_type(col):
         return 'C'
     else:
         return 'D'
-# Generate inviolable row indices
-def generate_inviolable_indices(num_rows, n_inviolable):
-    return set(random.sample(range(num_rows), min(n_inviolable, num_rows)))
-
 
 # Check if file exists
 def is_file_exist(file_path):
