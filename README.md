@@ -1,6 +1,6 @@
 # RIFT: RFD-based Imputation Framework for Time Series
 
- <img src="Full Experimental Evaluation/Overview.png" alt="...">
+ <img src="Images/Overview.png" alt="...">
 
 This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for  Time Series*.
 
@@ -10,7 +10,7 @@ In the following, we provide the experiments that were omitted in the paper due 
 
 ### Datasets details
 
-<img src="Full Experimental Evaluation/Datasets.png" alt="...">
+<img src="Images/Datasets.png" alt="...">
 
 The Figure above shows the details of the datasets employed in our evaluation, also reporting the total number of Missing Values for each configuration. These datasets were selected to cover different domains, such as human activity recognition, environmental sensing, industrial automation, and air quality monitoring (i.e., Opportunity, Telemetry, Genesis,and Air Quality, resp.).
 
@@ -18,14 +18,14 @@ The Figure above shows the details of the datasets employed in our evaluation, a
 
 To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, let _tr_ be the number of correct imputations, _imp_ the numberof imputations performed and _miss_ be the number of MVs originally present inthe dataset, then:
 
-<img src="Full Experimental Evaluation/Evaluation Metrics.png" alt="...">
+<img src="Images/Evaluation Metrics.png" alt="...">
 
 
 ### Experiment with MNAR assumption
 
-<img src="Full Experimental Evaluation/Legend.png" alt="...">
+<img src="Images/Legend.png" alt="...">
 
-<img src="Full Experimental Evaluation/MNAR Experiment.png" alt="...">
+<img src="Images/MNAR Experiment.png" alt="...">
 
 In addition to our main experiments conducted under the MAR assumption, we performed a complementary evaluation on the Opportunity dataset to investigate Missing Not at Random (MNAR) scenarios. More specifically, we injected missing values by simulating sensor failures for a random period of time, until reaching a missing rate percentage of 5%, 10%, and 20%. The figure above shows the results in terms of Precision, Recall, and RMSE. By comparing the latter with those under the MAR assumption, it is possible to generally notice a similar behavior of all metrics, even with a slight degradation due to the more complex scenario. However, only SPLINE, BFILL, and FFILL showed a significant drop in both Precision and Recall.
 
