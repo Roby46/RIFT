@@ -84,14 +84,12 @@ version=1
 dataset_name_MV = f'{dataset_name}_{MVs}_{version}_Balanced_cluster_10'  # Name of the cluster
 k_arr = [100, 300, 500, 1000]                                            # Number of medoids to save
 dataset_type = "numeric"                                                 # set to "numeric" if all dimensions are numeric, otherwise use "mixed" 
-
-
 ```
 Both scripts save the processed data in the **Missing Datasets** folder, inside the subfolder corresponding to the dataset they were applied to.
 
 ## DISCOVERY
 
-After performing the clustering step, it is possible to run an RFD discovery process to extract the RFDs holding for each cluster. For this step, any RFD discovery algorithm can be employed. The syntax used to represent the discovered RFDs should be the following:
+After performing the clustering step, it is possible to run an RFD discovery process to extract the RFDs holding for each cluster (since every algorithm extracts a set of complete, correct and minimal RFDs the results will be the same). For this step, any RFD discovery algorithm can be employed. The syntax used to represent the discovered RFDs should be the following:
 
 ```
 RHS;COL0;COL1;COL2;COL3;COL4;COL5;COL6;COL7;COL8;COL9;COL10;COL11;COL12;COL13;COL14;COL15
@@ -101,4 +99,17 @@ Specifically, each RFD is represented by a row. The column **RHS** contains the 
 
 ## IMPUTATION
 
-Work in progress!
+After performing all the required discovery processes, it is possible to start the imputation step. To this end, the .jar files SequentialImputationExecutor and  SequentialImputationExecutorIndexing can execute the imputation processes on a set of clusters in a sequential way. The imputation process requires (1) the RFD discovered for each cluster, which have to be put inside the RFD folre; (2) the files inside the  **Initial_Tuples** folder, (3) the Header and the ColumnTypes files, which have to be put in the CandidateDataset folder and contains all the informations of all datasets (these files are automatically updated when injecting missing values in the preprocessing step); (4) the datasets, which have to be put in the dataset folder. This repository contains two .jar files: SequentialImputationExecutor performs the imputations process by employing only the decay mechanism, while SequentialImputationExecutorIndexing also adds the use of the indexing strategy. Both jars requires the following arguments:
+```
+        String basePath = "C:\\Users\\rstan\\eclipse-workspace\\Imputation\\";   //Main Directory that contains the folders described above
+        String delim = ";";  //Dataset delimiter
+        String nullValue = "?"; //Symbol that represents missing values
+        int windowSize = 25000; //Dataset size (temporal instants)
+        int clusterRows = 100; //rows used for the discovery step. In this case, the algorithm will use the RFDs discovered with 100 medoids (k)
+        int[] clusterIds = {1,2}; //cluster IDs. Here we have two clusters
+        int[] attributeCounts = {6,11}; //Number of dimensions in each cluster (e.g. cluster 1 has 6 dimensions)
+        String dataset = CATS_16000_17_13600_1 //Dataset name ({name}\_{length}\_{number of dimensions}\_{number of missing values}\_{version})
+        thresholds=0.5 //Threshold used for the discovery in the discovery step (required by RENUVER)
+
+```
+
