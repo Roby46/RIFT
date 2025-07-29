@@ -89,7 +89,7 @@ Both scripts save the processed data in the **Missing Datasets** folder, inside 
 
 ## DISCOVERY
 
-After performing the clustering step, it is possible to run an RFD discovery process to extract the RFDs holding for each cluster (since every algorithm extracts a set of complete, correct and minimal RFDs the results will be the same). For this step, any RFD discovery algorithm can be employed. The syntax used to represent the discovered RFDs should be the following:
+After performing the clustering step, it is possible to run an RFD discovery process to extract the RFDs holding for each cluster. For this step, any RFD discovery algorithm can be employed (since every algorithm extracts a set of complete, correct and minimal RFDs the results will be the same). The syntax used to represent the discovered RFDs should be the following:
 
 ```
 RHS;COL0;COL1;COL2;COL3;COL4;COL5;COL6;COL7;COL8;COL9;COL10;COL11;COL12;COL13;COL14;COL15
