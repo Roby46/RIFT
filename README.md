@@ -20,39 +20,7 @@ To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, l
 
 <img src="Full Experimental Evaluation/Evaluation Metrics.png" alt="...">
 
-<<<<<<< Updated upstream
-### Scalability evaluation
 
-<img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
-
-The Figure above shows the effect of the clustering strategy (Step 1 & 2 of RIFT) on the discovery times. The scale-up values marked with an asterisk are computed by considering the Time Limit (5 hrs).
-
-<img src="Full Experimental Evaluation/Decay Effect.png" alt="...">
-
-The Figure above shows the effect of the RFD time decay mechanism (Step 3 of RIFT) in the imputation time. 
-
-### Influence of the k parameter
-
-<img src="Full Experimental Evaluation/k Effect.png" alt="...">
-
-The Figure above shows the effects of varying the k parameter of RIFT, i.e., the number of representative time instants (medoids) used for discoverying RFDs. 
-
-### Comparison with the state of the art
-<img src="Full Experimental Evaluation/Legend.png" alt="...">
-
-<img src="Full Experimental Evaluation/Imputation part 1.png" alt="...">
-
-<img src="Full Experimental Evaluation/Imputation part 2.png" alt="...">
-
-The Figures above show the Precision and Recall values of the baselines approaches withand without applying RIFT as a pre-processing step. Furthermore, the figure also reports the same metrics for RIFT as a stand-alone approach.
-
-<img src="Full Experimental Evaluation/Legend.png" alt="...">
-<img src="Full Experimental Evaluation/Imputation RMSE.png" alt="...">
-
-In addition to evaluating the proposed approach in quantitative terms, we also investigated the quality of the imputations obtained. The Figure above shows the RMSE of RIFT and of the baselines approaches withand without applying it as a pre-processing step.
-
-=======
->>>>>>> Stashed changes
 ### Experiment with MNAR assumption
 
 <img src="Full Experimental Evaluation/Legend.png" alt="...">
