@@ -4,9 +4,9 @@
 
 This repository contains supplemental material related to the paper *RIFT: RFD-based Imputation Framework for  Time Series*.
 
-## FULL EXPERIMENTAL EVALUATION
+## EXPERIMENTAL EVALUATION
 
-In the following, we provide the complete experimental results, which were partially omitted in the paper due to space constraints.  
+In the following, we provide the experiments that were omitted in the paper due to space constraints.  
 
 ### Datasets details
 
@@ -20,6 +20,7 @@ To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, l
 
 <img src="Full Experimental Evaluation/Evaluation Metrics.png" alt="...">
 
+<<<<<<< Updated upstream
 ### Scalability evaluation
 
 <img src="Full Experimental Evaluation/Clustering Effect.png" alt="...">
@@ -50,6 +51,8 @@ The Figures above show the Precision and Recall values of the baselines approach
 
 In addition to evaluating the proposed approach in quantitative terms, we also investigated the quality of the imputations obtained. The Figure above shows the RMSE of RIFT and of the baselines approaches withand without applying it as a pre-processing step.
 
+=======
+>>>>>>> Stashed changes
 ### Experiment with MNAR assumption
 
 <img src="Full Experimental Evaluation/Legend.png" alt="...">
@@ -61,15 +64,6 @@ In addition to our main experiments conducted under the MAR assumption, we perfo
 This degradation is due to the fact that, unlike the MAR scenario where missing values are more evenly distributed, in the MNAR case, there are prolonged periods of missing data due to the simulated sensor failures. As a result, imputation methods such as BFILL and FFILL, which rely on propagating the nearest observed values, struggled to accurately reconstruct the data. Similarly, SPLINE was affected by the lack of regularly distributed reference points, leading to less precise estimations.
 
 As regards the proposed approach, RIFT showed a similar behavior, providing few but very precise imputations. Even in this scenario, by applying RIFT as a pre-processing step, we were able to improve the baselines’ imputations, with an average improvement of 4.36% for Precision and Recall, respectively, and an average reduction of 6.74% for the RMSE.
-
-
-### Execution times
-
-<img src="Full Experimental Evaluation/Legend Short.png" alt="...">
-
-<img src="Full Experimental Evaluation/Imputation time comparison.png" alt="...">
-
-The Figure above shows the average execution time of the baselines with and without the application of RIFT on all the configurations of each dataset. 
 
 
 ## DATASETS
