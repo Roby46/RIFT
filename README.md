@@ -114,7 +114,7 @@ After performing all the required discovery processes, it is possible to start t
         String basePath = "C:\\Users\\rstan\\eclipse-workspace\\Imputation\\";   //Main Directory that contains the folders described above
         String delim = ";";  //Dataset delimiter
         String nullValue = "?"; //Symbol that represents missing values
-        int windowSize = 25000; //Dataset size (temporal instants)
+        int windowSize = 16000; //Dataset size (temporal instants)
         int clusterRows = 100; //rows used for the discovery step. In this case, the algorithm will use the RFDs discovered with 100 medoids (k)
         int[] clusterIds = {1,2}; //cluster IDs. Here we have two clusters
         int[] attributeCounts = {6,11}; //Number of dimensions in each cluster (e.g. cluster 1 has 6 dimensions)
@@ -123,5 +123,5 @@ After performing all the required discovery processes, it is possible to start t
 ```
 Thus, they can be executed as follows:
 ```
-java -jar RIFT.jar "C:/Users/rstan/eclipse-workspace/Imputation/" ";" "?" 25000 100 "1,2" "6,11" "CATS_16000_17_13600_1" 0.5
+java -jar RIFT.jar "C:/Users/rstan/eclipse-workspace/Imputation/" ";" "?" 16000 100 "1,2" "6,11" "CATS_16000_17_13600_1" 0.5
 ```
