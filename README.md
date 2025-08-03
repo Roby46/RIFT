@@ -120,6 +120,8 @@ After performing all the required discovery processes, it is possible to start t
         int[] attributeCounts = {6,11}; //Number of dimensions in each cluster (e.g. cluster 1 has 6 dimensions)
         String dataset = CATS_16000_17_13600_1 //Dataset name ({name}\_{length}\_{number of dimensions}\_{number of missing values}\_{version})
         thresholds=0.5 //Threshold used for the discovery in the discovery step (required by RENUVER)
-
 ```
-
+Thus, they can be executed as follows:
+```
+java -jar RIFT.jar "C:/Users/rstan/eclipse-workspace/Imputation/" ";" "?" 25000 100 "1,2" "6,11" "CATS_16000_17_13600_1" 0.5
+```
