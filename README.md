@@ -33,6 +33,15 @@ This degradation is due to the fact that, unlike the MCAR scenario where missing
 
 As regards the proposed approach, RIFT showed a similar behavior, providing few but very precise imputations. Even in this scenario, by applying RIFT as a pre-processing step, we were able to improve the baselines’ imputations, with an average improvement of 4.36% for Precision and Recall, respectively, and an average reduction of 6.74% for the RMSE.
 
+### Influence of k with 10% and 20% missing rates
+
+The following Figures reports the effect of the variation of the parameter k on the imputation accuracy on datasets with 10% and 20% of missing rate. We can observe a similar behaviour with respect to the experiments reported in the paper (which refer to 5% missing rate)
+
+<img src="Images/10% MR.png" alt="...">
+
+<img src="Images/20% MR.png" alt="...">
+
+
 
 ## DATASETS
 
