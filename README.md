@@ -37,9 +37,9 @@ As regards the proposed approach, RIFT showed a similar behavior, providing few 
 
 The following Figures reports the effect of the variation of the parameter k on the imputation accuracy on datasets with 10% and 20% of missing rate. We can observe a similar behaviour with respect to the experiments reported in the paper (which refer to 5% missing rate)
 
-<img src="Images/10% MR.png" alt="...">
+<img src="Images/10MR.png" alt="...">
 
-<img src="Images/20% MR.png" alt="...">
+<img src="Images/20MR.png" alt="...">
 
 
 
