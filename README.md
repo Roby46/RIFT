@@ -2,7 +2,7 @@
 
  <img src="Images/Overview.png" alt="...">
 
-This repository contains supplemental material related to the paper *RIFT: Scaling Relaxed Functional Dependencies for ImputingMissing Values in Time series*.
+This repository contains supplemental material related to the paper *RIFT: Scaling Relaxed Functional Dependencies for Imputing Missing Values in Time series*.
 
 ## EXPERIMENTAL EVALUATION
 
