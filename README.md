@@ -35,11 +35,9 @@ As regards the proposed approach, RIFT showed a similar behavior, providing few 
 
 ### Influence of k with 10% and 20% missing rates
 
-The following Figures reports the effect of the variation of the parameter k on the imputation accuracy on datasets with 10% and 20% of missing rate. We can observe a similar behaviour with respect to the experiments reported in the paper (which refer to 5% missing rate)
+The following Figures reports the effect of the variation of the parameter k on the imputation accuracy with 5%, 10%, and 20% missing rate. We can observe a similar behaviour with respect to the experiments reported in the paper (which refer to 5% missing rate)
 
-<img src="Images/10MR.png" alt="...">
-
-<img src="Images/20MR.png" alt="...">
+<img src="Images/RMSE.png" alt="...">
 
 ### Impact of RIFT on the RMSE
 
