@@ -21,18 +21,6 @@ To evaluate the imputations, we consider Precision, Recall and RMSE. Formally, l
 <img src="Images/Evaluation Metrics.png" alt="...">
 
 
-### Experiment with sensor failures
-
-<img src="Images/Legend.png" alt="...">
-
-<img src="Images/MNAR Experiment.png" alt="...">
-
-In addition to our main experiments conducted under the MCAR assumption, we performed a complementary evaluation on the Opportunity dataset to investigate a different missing mechanism. More specifically, we injected missing values by simulating sensor failures for a random period of time, until reaching a missing rate percentage of 5%, 10%, and 20%. The figure above shows the results in terms of Precision, Recall, and RMSE. By comparing the latter with those under the MAR assumption, it is possible to generally notice a similar behavior of all metrics, even with a slight degradation due to the more complex scenario. However, only SPLINE, BFILL, and FFILL showed a significant drop in both Precision and Recall.
-
-This degradation is due to the fact that, unlike the MCAR scenario where missing values are more evenly distributed, in this case, there are prolonged periods of missing data due to the simulated sensor failures. As a result, imputation methods such as BFILL and FFILL, which rely on propagating the nearest observed values, struggled to accurately reconstruct the data. Similarly, SPLINE was affected by the lack of regularly distributed reference points, leading to less precise estimations.
-
-As regards the proposed approach, RIFT showed a similar behavior, providing few but very precise imputations. Even in this scenario, by applying RIFT as a pre-processing step, we were able to improve the baselines’ imputations, with an average improvement of 4.36% for Precision and Recall, respectively, and an average reduction of 6.74% for the RMSE.
-
 ### Influence of k with 10% and 20% missing rates
 
 The following Figures reports the effect of the variation of the parameter k on the imputation accuracy with 10% and 20% missing rate (in the paper only results related to 5% missing rate are reported)
