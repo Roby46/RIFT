@@ -29,13 +29,6 @@ The following Figures reports the effect of the variation of the parameter k on 
 
 <img src="Images/20MR.png" alt="...">
 
-### Impact of RIFT on the RMSE
-
-The following Figures reports the imact of RIFT on SOTA approaches on the RMSE values  with 5%, 10%, and 20% missing rate. We can observe a similar impact with respect to the result reported in the paper (which refer to 5% missing rate)
-
-<img src="Images/RMSE.png" alt="...">
-
-
 
 
 ## DATASETS
