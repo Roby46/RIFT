@@ -4,6 +4,14 @@
 
 This repository contains supplemental material related to the paper *RIFT: Scaling Relaxed Functional Dependencies for Imputing Missing Values in Time series*.
 
+## License
+
+This software is released under the GNU Affero General Public License v3.0 (AGPLv3).
+
+See the full license text at:
+https://www.gnu.org/licenses/agpl-3.0.html
+
+
 ## EXPERIMENTAL EVALUATION
 
 In the following, we provide the experiments that were omitted in the paper due to space constraints.  
