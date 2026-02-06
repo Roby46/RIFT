@@ -1,0 +1,36 @@
+For our preliminary experiment (Page 4) we leveraged a repo that provides several datasets commonly used in Data Profilig. The repo is the following:
+
+https://github.com/DastLab/TestDataset
+
+The considered datasets are:
+
+abalone
+adult
+Andromeda
+appendicitis
+australian
+balance-scale
+biodeg
+bitcoinheistdata
+breast-cancer-wisconsin
+bridges
+cars
+chess
+classification
+cmc
+coil2000
+divorce
+ecoli
+fd-reduced-15
+fd-reduced-30
+flights
+fraudfull
+glass
+har
+hayes-roth
+heart_failure_clinical_records
+hepatitis
+horse
+iris
+letter
+ncvoter
