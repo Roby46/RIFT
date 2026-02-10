@@ -1,194 +1,300 @@
-# Functions for saving data
+# ============================================================
+# RIFT - STEP 1: Dimension Clustering
+# ============================================================
+
 import os
-import pandas as pd
-import numpy as np
 import csv
+import numpy as np
+import pandas as pd
+
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 
+# Optional metrics (used in other configurations)
+from tslearn.metrics import dtw
+from fastdtw import fastdtw
+
+
+# ------------------------------------------------------------
+# Utility functions
+# ------------------------------------------------------------
+
 def write_unique_row_to_csv(file_path, row_data, delimiter=';'):
-    """Writes a row to a CSV file only if it is not already present."""
+    """Write a row to CSV only if it is not already present."""
     if not os.path.exists(file_path):
-        with open(file_path, 'w', newline='') as file:
-            writer = csv.writer(file, delimiter=delimiter)
+        with open(file_path, 'w', newline='') as f:
+            writer = csv.writer(f, delimiter=delimiter)
             writer.writerow(row_data)
     else:
-        with open(file_path, 'r', newline='') as file:
-            for line in file:
+        with open(file_path, 'r', newline='') as f:
+            for line in f:
                 if line.strip() == delimiter.join(row_data):
-                    return  # Row already exists, do nothing
-        with open(file_path, 'a', newline='') as file:
-            writer = csv.writer(file, delimiter=delimiter)
+                    return
+        with open(file_path, 'a', newline='') as f:
+            writer = csv.writer(f, delimiter=delimiter)
             writer.writerow(row_data)
+
 
 def determine_column_type(col):
-    """Determines the type of a given column."""
+    """Infer a coarse column type used downstream."""
     if col.dtype == 'bool':
-        return 'B'  # Boolean type
+        return 'B'
     elif col.dtype == 'object' and col.str.len().max() == 1:
-        return 'C'  # Categorical type (single character strings)
+        return 'C'
     else:
-        return 'D'  # Numerical or other data type
+        return 'D'
 
-def split_large_cluster(cluster_columns, correlation_matrix, max_size=15):
-    """Splits a cluster that exceeds the maximum size using hierarchical clustering."""
+
+# ------------------------------------------------------------
+# Distance matrix computation
+# ------------------------------------------------------------
+
+def compute_distance_matrix(df, metric="pearson"):
+    """
+    Compute a pairwise distance matrix between dimensions.
+
+    For Pearson/Spearman/Kendall:
+        d(x, y) = 1 - |corr(x, y)|
+    """
+    cols = df.columns
+    n = len(cols)
+    dist_full = np.zeros((n, n))
+
+    if metric in ["pearson", "spearman", "kendall"]:
+        corr = df.corr(method=metric).fillna(0)
+        dist_full = 1 - np.abs(corr.values)
+
+    elif metric == "sbd":
+        def sbd(x, y):
+            x = (x - np.mean(x)) / (np.std(x) + 1e-8)
+            y = (y - np.mean(y)) / (np.std(y) + 1e-8)
+            cc = np.correlate(x, y, mode="full")
+            return 1 - np.max(cc) / len(x)
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                d = sbd(df[cols[i]].values, df[cols[j]].values)
+                dist_full[i, j] = dist_full[j, i] = d
+
+    elif metric.startswith("dtw"):
+        window = None
+        if "-" in metric:
+            _, _, w = metric.split("-")
+            window = int(w)
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                if window:
+                    d = dtw(
+                        df[cols[i]].values,
+                        df[cols[j]].values,
+                        global_constraint="sakoe_chiba",
+                        sakoe_chiba_radius=window
+                    )
+                else:
+                    d = fastdtw(
+                        df[cols[i]].values,
+                        df[cols[j]].values
+                    )[0]
+                dist_full[i, j] = dist_full[j, i] = d
+    else:
+        raise ValueError(f"Unsupported metric: {metric}")
+
+    np.fill_diagonal(dist_full, 0)
+    return pd.DataFrame(dist_full, index=cols, columns=cols)
+
+
+# ------------------------------------------------------------
+# Cluster refinement operators
+# ------------------------------------------------------------
+
+def split_large_cluster(cluster_columns, dist_matrix, max_size):
+    """
+    Split an oversized cluster using hierarchical clustering.
+    """
     global global_cluster_id
-    # Extract the correlation submatrix for the cluster
-    sub_corr_matrix = correlation_matrix.loc[cluster_columns, cluster_columns]
-    # Convert correlation to distance (1 - absolute correlation)
-    sub_distance_matrix = 1 - np.abs(sub_corr_matrix.values)
-    sub_distance_matrix = squareform(sub_distance_matrix, force='tovector')
-    sub_distance_matrix = np.clip(sub_distance_matrix, 0, None)
 
-    # Apply hierarchical clustering (Ward's method) to split the cluster
-    sub_linkage_matrix = linkage(sub_distance_matrix, method='ward')
-    k = int(np.ceil(len(cluster_columns) / max_size))  # Determine number of sub-clusters
-    sub_clusters = fcluster(sub_linkage_matrix, k, criterion='maxclust')
+    sub_dist = dist_matrix.loc[cluster_columns, cluster_columns].values
+    sub_vector = squareform(sub_dist, force="tovector")
 
-    # Create new sub-clusters
-    new_sub_clusters = {}
-    for i in np.unique(sub_clusters):
-        new_cluster_name = f'cluster_{global_cluster_id}'
+    sub_linkage = linkage(sub_vector, method="ward")
+    k = int(np.ceil(len(cluster_columns) / max_size))
+    labels = fcluster(sub_linkage, k, criterion="maxclust")
+
+    new_clusters = {}
+    for lbl in np.unique(labels):
+        new_name = f"cluster_{global_cluster_id}"
         global_cluster_id += 1
-        new_sub_clusters[new_cluster_name] = [
-            cluster_columns[j] for j in range(len(cluster_columns)) if sub_clusters[j] == i
+        new_clusters[new_name] = [
+            cluster_columns[i]
+            for i in range(len(cluster_columns))
+            if labels[i] == lbl
         ]
-    return new_sub_clusters
 
-def merge_small_clusters(small_cluster, other_clusters, correlation_matrix, min_size=5):
-    """Merges small clusters with the most similar existing cluster based on correlation."""
-    small_cluster_set = set(small_cluster)
-    best_similarity = -np.inf
-    best_merge_target = None
+    return new_clusters
 
-    # Find the cluster with the highest average correlation to the small cluster
-    for cluster_id, cluster_columns in other_clusters.items():
-        inter_corr = correlation_matrix.loc[small_cluster, cluster_columns].values.flatten()
-        avg_similarity = np.mean(inter_corr)
-        if avg_similarity > best_similarity:
-            best_similarity = avg_similarity
-            best_merge_target = cluster_id
 
-    # Merge with the most similar cluster if possible, otherwise create a new cluster
-    if best_merge_target:
-        other_clusters[best_merge_target].extend(small_cluster)
+def merge_small_cluster(cluster_columns, clusters, dist_matrix, max_size):
+    """
+    Merge a small cluster into the nearest compatible cluster
+    (i.e., respecting the max_size constraint).
+    """
+    best_target = None
+    best_distance = np.inf
+
+    for cid, cols in clusters.items():
+        if len(cols) + len(cluster_columns) > max_size:
+            continue
+
+        d = np.mean(dist_matrix.loc[cluster_columns, cols].values)
+        if d < best_distance:
+            best_distance = d
+            best_target = cid
+
+    if best_target is not None:
+        clusters[best_target].extend(cluster_columns)
     else:
-        other_clusters[f'cluster_{len(other_clusters) + 1}'] = small_cluster
+        # Fallback: keep the cluster isolated (rare in practice)
+        clusters[f"cluster_{len(clusters) + 1}"] = cluster_columns
 
-# Parameters and dataset name
+
+# ------------------------------------------------------------
+# MAIN SCRIPT
+# ------------------------------------------------------------
+
 min_cluster_size = 6
-max_cluster_size = 14
-dataset_name = 'S4-ADL5-MNAR_20000_130'
-dataset_name_MV = f'{dataset_name}_260000_1'
+max_cluster_size = 13
 
-# Read dataset headers
+dataset_name = "S4-ADL5_20000_130"
+dataset_mv = f"{dataset_name}_130000_1"
+metric = "pearson"
+
+# ------------------------------------------------------------
+# Load headers and dataset
+# ------------------------------------------------------------
+
 headers = []
-with open('../Preprocessing/Headers/Headers.csv', 'r') as f:
+with open("../Preprocessing/Headers/Headers.csv", "r") as f:
     for line in f:
-        values = line.strip().split(';')
-        headers.append(values)
+        headers.append(line.strip().split(";"))
 
-# Identify the relevant columns for the dataset
 columns = None
-for header in headers:
-    if header[-1] == dataset_name_MV:
-        columns = [col for col in header[:-1] if col]
+for h in headers:
+    if h[-1] == dataset_mv:
+        columns = [c for c in h[:-1] if c]
         break
+
 if columns is None:
-    raise ValueError(f"Header for dataset '{dataset_name_MV}' not found in the header file.")
+    raise ValueError(f"Header for dataset '{dataset_mv}' not found.")
 
-# Load the dataset and compute Pearson correlation matrix
-df_from_csv = pd.read_csv(f"../Datasets/DOMINO_Datasets/{dataset_name}/{dataset_name_MV}.csv", sep=";", names=columns)
-correlation_matrix_from_csv = df_from_csv.corr(method='pearson')
+df = pd.read_csv(
+    f"../Datasets/DOMINO_Datasets/{dataset_name}/{dataset_mv}.csv",
+    sep=";",
+    names=columns
+)
 
-# Compute distance matrix (1 - absolute correlation)
-distance_matrix = 1 - np.abs(correlation_matrix_from_csv.values)
-distance_matrix = np.clip(distance_matrix, 0, None)
-distance_matrix = squareform(distance_matrix, force='tovector')
+# ------------------------------------------------------------
+# Step 1.1 – Correlation-based distance
+# ------------------------------------------------------------
 
-# Perform hierarchical clustering using Ward’s method
-linkage_matrix = linkage(distance_matrix, method='ward')
-initial_clusters = fcluster(linkage_matrix, 8, criterion='maxclust')
+dist_matrix = compute_distance_matrix(df, metric=metric)
 
-# Assign clusters based on initial clustering
-clusters = {f'cluster_{i}': correlation_matrix_from_csv.columns[initial_clusters == i].tolist()
-            for i in np.unique(initial_clusters)}
+# ------------------------------------------------------------
+# Step 1.2 – Initial hierarchical clustering
+# ------------------------------------------------------------
 
-# Initialize global cluster ID counter
+dist_vector = squareform(dist_matrix.values, force="tovector")
+Z = linkage(dist_vector, method="ward")
+
+# Initial cut used only to obtain a starting partition
+initial_labels = fcluster(Z, 8, criterion="maxclust")
+
+clusters = {
+    f"cluster_{i}": dist_matrix.columns[initial_labels == i].tolist()
+    for i in np.unique(initial_labels)
+}
+
 global_cluster_id = len(clusters) + 1
 
-# Iterative process to balance clusters
-max_iterations = 100  # Prevent infinite loops
-iteration = 0
+# ------------------------------------------------------------
+# Step 1.3 – Split oversized clusters
+# ------------------------------------------------------------
 
-while iteration < max_iterations:
-    iteration += 1
-    print(f"Iteration {iteration}, clusters: {clusters}")
+split_required = True
+while split_required:
+    split_required = False
+    oversized = {
+        cid: cols for cid, cols in clusters.items()
+        if len(cols) > max_cluster_size
+    }
 
-    # Identify clusters that need to be split or merged
-    clusters_to_split = {k: v for k, v in clusters.items() if len(v) > max_cluster_size}
-    clusters_to_merge = {k: v for k, v in clusters.items() if len(v) < min_cluster_size}
+    for cid, cols in oversized.items():
+        split_required = True
+        del clusters[cid]
+        clusters.update(
+            split_large_cluster(cols, dist_matrix, max_cluster_size)
+        )
 
-    # If no adjustments are needed, exit the loop
-    if not clusters_to_split and not clusters_to_merge:
-        break
+# ------------------------------------------------------------
+# Step 1.4 – Merge undersized clusters
+# ------------------------------------------------------------
 
-    # Split large clusters
-    for cluster_id, cluster_columns in clusters_to_split.items():
-        del clusters[cluster_id]
-        new_sub_clusters = split_large_cluster(cluster_columns, correlation_matrix_from_csv, max_size=max_cluster_size)
-        clusters.update(new_sub_clusters)
+small_clusters = {
+    cid: cols for cid, cols in clusters.items()
+    if len(cols) < min_cluster_size
+}
 
-    # Merge small clusters
-    for cluster_id, cluster_columns in list(clusters_to_merge.items()):
-        if cluster_id in clusters:  # Ensure the cluster still exists
-            del clusters[cluster_id]
-            merge_small_clusters(cluster_columns, clusters, correlation_matrix_from_csv, min_size=min_cluster_size)
+for cid, cols in list(small_clusters.items()):
+    if cid not in clusters:
+        continue
 
-    # Stop if all clusters are within the desired size range
-    if all(len(v) <= max_cluster_size for v in clusters.values()):
-        break
+    del clusters[cid]
+    merge_small_cluster(cols, clusters, dist_matrix, max_cluster_size)
 
-if iteration >= max_iterations:
-    print("Warning: Maximum number of iterations reached while balancing clusters.")
+# ------------------------------------------------------------
+# Step 1.5 – Save clustered datasets
+# ------------------------------------------------------------
 
-# Save results
-base_path = f"../Datasets/Missing_Datasets/{dataset_name}/{dataset_name_MV}"
-df_from_csv = pd.read_csv(f"../Datasets/Missing_Datasets/{dataset_name}/{dataset_name_MV}.csv", sep=";", names=columns)
-dataset_name_MV_B = f'{dataset_name_MV}_Balanced'
+base_path = f"../Datasets/Missing_Datasets/{dataset_name}/{dataset_mv}"
+df_missing = pd.read_csv(
+    f"{base_path}.csv",
+    sep=";",
+    names=columns
+)
 
-for cluster_id, cluster_columns in clusters.items():
-    cluster_folder_path = os.path.join(base_path)
-    os.makedirs(cluster_folder_path, exist_ok=True)
+dataset_mv_balanced = f"{dataset_mv}_Balanced"
 
-    # Create a new dataframe for the cluster
-    cluster_df = df_from_csv[cluster_columns]
+for cid, cols in clusters.items():
+    os.makedirs(base_path, exist_ok=True)
 
-    # Save the cluster dataset as a CSV file
-    cluster_filename_no_ext = f"{dataset_name_MV_B}_{cluster_id}"
-    cluster_filename = f"{dataset_name_MV_B}_{cluster_id}.csv"
-    cluster_filepath = os.path.join(cluster_folder_path, cluster_filename)
-    cluster_df.to_csv(cluster_filepath, index=False, sep=";")
-    print(f"Cluster {cluster_id} saved at {cluster_filepath}")
+    cluster_df = df_missing[cols]
+    fname_no_ext = f"{dataset_mv_balanced}_{cid}"
+    fname = f"{fname_no_ext}.csv"
+    fpath = os.path.join(base_path, fname)
 
-    # Save column types
-    column_types = [determine_column_type(cluster_df[col]) for col in cluster_df.columns]
-    write_unique_row_to_csv('../Preprocessing/ColumnTypes/ColumnTypesClust.csv', column_types + [cluster_filename_no_ext])
+    cluster_df.to_csv(fpath, index=False, sep=";")
+    print(f"Cluster {cid} saved at {fpath}")
 
-    # Save headers
-    write_unique_row_to_csv('../Preprocessing/Headers/HeadersClust.csv', cluster_df.columns.tolist() + [cluster_filename_no_ext])
+    column_types = [determine_column_type(cluster_df[c]) for c in cluster_df.columns]
+    write_unique_row_to_csv(
+        "../Preprocessing/ColumnTypes/ColumnTypesClust.csv",
+        column_types + [fname_no_ext]
+    )
 
-    # Filter original file for tuples related to the cluster
-    original_file_path = f'../Preprocessing/Initial_Tuples/{dataset_name}/{dataset_name_MV}.csv'
-    os.makedirs("InitialTuples/", exist_ok=True)
+    write_unique_row_to_csv(
+        "../Preprocessing/Headers/HeadersClust.csv",
+        cluster_df.columns.tolist() + [fname_no_ext]
+    )
 
-    with open(original_file_path, 'r') as original_file:
-        reader = csv.reader(original_file, delimiter=';')
-        filtered_rows = [row for row in reader if row[1] in cluster_df.columns.tolist()]
+    original_file = f"../Preprocessing/Initial_Tuples/{dataset_name}/{dataset_mv}.csv"
+    os.makedirs("InitialTuples", exist_ok=True)
 
-    # Save filtered rows
-    with open(f"InitialTuples/{cluster_filename}", 'w', newline='') as filtered_file:
-        writer = csv.writer(filtered_file, delimiter=';')
-        writer.writerows(filtered_rows)
+    with open(original_file, "r") as f:
+        reader = csv.reader(f, delimiter=";")
+        rows = [r for r in reader if r[1] in cluster_df.columns.tolist()]
 
-    print(f"Filtered initial tuples for cluster {cluster_id} saved.")
+    with open(f"InitialTuples/{fname}", "w", newline="") as f:
+        writer = csv.writer(f, delimiter=";")
+        writer.writerows(rows)
+
+    print(f"Filtered initial tuples for cluster {cid} saved.")
