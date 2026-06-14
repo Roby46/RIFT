@@ -40,12 +40,13 @@ The following Figures reports the effect of the variation of the parameter k on 
 
 ### Additional Results: the PEMSBAY dataset
 
-We conducted an additional experiment on the PEMSBAY dataset, a high-dimensional multivariate time series (20.000 time instants and 200 dimensions). As done in the paper, we now report the Precision and Recall values obtained with and without applying RIFT as preprocessing step. 
+We conducted an additional experiment on the PEMSBAY dataset, a high-dimensional multivariate time series (20.000 time instants and 200 dimensions). As done in the paper, we now report the Precision, Recall, and RMSE values obtained with and without applying RIFT as preprocessing step. 
 Similarly to what observed with the Opportunity dataset, RIFT acted as a high-precision, low-recall imputor. The imputations performed by RIFT allow to improve the accuracy of all imputers in most configurations, proving its usefulness in supporting MV imputation. 
 
 #### Missing Rate 10% (400.000 missing values)
 | Approach            | Precision | Recall   | RMSE       |
 |---------------------|-----------|----------|------------|
+| RIFT (STANDALONE)   | 99.9      | 2.9      | 0.019      |
 | MEDIAN              | 17.7      | 17.7     | 9.56       |
 | MEDIAN+RIFT         | **19.8**  | **19.8** | **9.55**   |
 | MEAN                | 7.0       | 7.0      | 9.0695     |
@@ -71,6 +72,7 @@ Similarly to what observed with the Opportunity dataset, RIFT acted as a high-pr
 #### Missing Rate 5% (200.000 missing values)
 | Approach            | Precision | Recall   | RMSE       |
 |---------------------|-----------|----------|------------|
+| RIFT (STANDALONE)   | 99.9      | 3.0      | 0.0053     |
 | MEDIAN              | 17.8      | 17.8     | 9.66       |
 | MEDIAN+RIFT         | **19.9**  | **19.9** | **9.65**   |
 | MEAN                | 7.0       | 7.0      | 9.156      |
