@@ -38,6 +38,61 @@ The following Figures reports the effect of the variation of the parameter k on 
 <img src="Images/20MR.png" alt="...">
 
 
+### Additional Results: the PEMSBAY dataset
+
+We conducted an additional experiment on the PEMSBAY dataset, a high-dimensional multivariate time series (20.000 time instants and 200 dimensions). As done in the paper, we now report the Precision and Recall values obtained with and without applying RIFT as preprocessing step. 
+Similarly to what observed with the Opportunity dataset, RIFT acted as a high-precision, low-recall imputor. The imputations performed by RIFT allow to improve the accuracy of all imputers in most configurations, proving its usefulness in supporting MV imputation. 
+
+#### Missing Rate 10% (400.000 missing values)
+| Approach            | Precision | Recall   | RMSE       |
+|---------------------|-----------|----------|------------|
+| MEDIAN              | 17.7      | 17.7     | 9.56       |
+| MEDIAN+RIFT         | **19.8**  | **19.8** | **9.55**   |
+| MEAN                | 7.0       | 7.0      | 9.0695     |
+| MEAN+RIFT           | **9.7**   | **9.7**  | **9.060**  |
+| FFILL               | 50.4      | 50.4     | 1.8388     |
+| FFILL+RIFT          | **50.6**  | **50.6** | **1.837**  |
+| BFILL               | 50.3      | 50.3     | 1.8409     |
+| BFILL+RIFT          | **50.5**  | **50.5** | **1.83**   |
+| SPLINE              | 50.2      | 50.2     | 1.3983     |
+| SPLINE+RIFT         | **50.3**  | **50.3** | **1.397**  |
+| MICE                | **31.7**  | **31.7** | **2.8108** |
+| MICE+RIFT           | 31.6      | 31.6     | 2.8110     |
+| TIMESNET            | 0.01      | 0.01     | 26.12      |
+| TIMESNET+RIFT       | **3.0**   | **3.0**  | **22.93**  |
+| SAITS               | 17.3      | 17.3     | 9.89       |
+| SAITS+RIFT          | **20.7**  | **20.7** | **9.40**   |
+| BRITS               | 6.4       | 6.4      | 7.26       |
+| BRITS+RIFT          | **9.6**   | **9.6**  | **6.87**   |
+| IMPUTEFORMER        | 8.8       | 8.8      | 9.57       |
+| IMPUTEFORMER + RIFT | **30.3**  | **30.3** | **4.61**   |
+
+
+#### Missing Rate 5% (200.000 missing values)
+| Approach            | Precision | Recall   | RMSE       |
+|---------------------|-----------|----------|------------|
+| MEDIAN              | 17.8      | 17.8     | 9.66       |
+| MEDIAN+RIFT         | **19.9**  | **19.9** | **9.65**   |
+| MEAN                | 7.0       | 7.0      | 9.156      |
+| MEAN+RIFT           | **9.6**   | **9.6**  | **9.1470** |
+| FFILL               | 50.7      | 50.7     | 1.799      |
+| FFILL+RIFT          | **50.8**  | **50.8** | **1.7980** |
+| BFILL               | 50.8      | 50.8     | 1.804      |
+| BFILL+RIFT          | **51.0**  | **51.0** | **1.80**   |
+| SPLINE              | 50.7      | 50.7     | 1.356      |
+| SPLINE+RIFT         | **50.8**  | **50.8** | **1.355**  |
+| MICE                | **32.8**  | **32.8** | **2.76**   |
+| MICE+RIFT           | **32.8**  | **32.8** | **2.76**   |
+| TIMESNET            | 0.2       | 0.2      | 26.05      |
+| TIMESNET+RIFT       | **3.1**   | **3.1**  | **22.93**  |
+| SAITS               | 13.4      | 13.4     | **9.38**   |
+| SAITS+RIFT          | **17.2**  | **17.2** | 9.70       |
+| BRITS               | 7.5       | 7.5      | 6.76       |
+| BRITS+RIFT          | **10.7**  | **10.7** | **6.44**   |
+| Imputeformer        | 24.5      | 24.5     | 5.25       |
+| ImputeFormer + RIFT | **28.9**  | **28.9** | **5.10**   |
+
+
 
 ## DATASETS
 
@@ -111,6 +166,9 @@ RHS;COL0;COL1;COL2;COL3;COL4;COL5;COL6;COL7;COL8;COL9;COL10;COL11;COL12;COL13;CO
 COL0;1.0;0.0;?;0.0;0.0;0.0;?;?;?;?;?;?;?;?;?;?
 ```
 Specifically, each RFD is represented by a row. The column **RHS** contains the attribute present in the RHS of the RFD. The attributes whose values are "?" are not involved in the RFD, whereas otherwise its associated similarity threshold is reported. For instance, the example above represents a single RFD: COL1(0.0), COL3(0.0), COL4(0.0), COL5(0.0)-->COL0(1.0).
+
+### Thresholds
+The similarity threshold can be defined per dimension and determines the notion of similarity between values in multivariate time series.  Its choice can be guided by the empirical characteristics of the data and by the intended semantic interpretation of similarity within each dimension.  For practitioners, a practical heuristic is to derive thresholds from the empirical distribution of pairwise distances computed within each dimension. In particular, quantile-based choices (e.g., lower quantiles of the distance distribution) can be used to identify relatively close observations in a data-driven manner.
 
 ## IMPUTATION
 
