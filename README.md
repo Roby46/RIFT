@@ -41,33 +41,7 @@ The following Figures reports the effect of the variation of the parameter k on 
 ### Additional Results: the PEMSBAY dataset
 
 We conducted an additional experiment on the PEMSBAY dataset, a high-dimensional multivariate time series (20.000 time instants and 200 dimensions). As done in the paper, we now report the Precision, Recall, and RMSE values obtained with and without applying RIFT as preprocessing step. 
-Similarly to what observed with the Opportunity dataset, RIFT acted as a high-precision, low-recall imputor. The imputations performed by RIFT allow to improve the accuracy of all imputers in most configurations, proving its usefulness in supporting MV imputation. 
-
-#### Missing Rate 10% (400.000 missing values)
-| Approach            | Precision | Recall   | RMSE       |
-|---------------------|-----------|----------|------------|
-| RIFT (STANDALONE)   | 99.9      | 2.9      | 0.019      |
-| MEDIAN              | 17.7      | 17.7     | 9.56       |
-| MEDIAN+RIFT         | **19.8**  | **19.8** | **9.55**   |
-| MEAN                | 7.0       | 7.0      | 9.0695     |
-| MEAN+RIFT           | **9.7**   | **9.7**  | **9.060**  |
-| FFILL               | 50.4      | 50.4     | 1.8388     |
-| FFILL+RIFT          | **50.6**  | **50.6** | **1.837**  |
-| BFILL               | 50.3      | 50.3     | 1.8409     |
-| BFILL+RIFT          | **50.5**  | **50.5** | **1.83**   |
-| SPLINE              | 50.2      | 50.2     | 1.3983     |
-| SPLINE+RIFT         | **50.3**  | **50.3** | **1.397**  |
-| MICE                | **31.7**  | **31.7** | **2.8108** |
-| MICE+RIFT           | 31.6      | 31.6     | 2.8110     |
-| TIMESNET            | 0.01      | 0.01     | 26.12      |
-| TIMESNET+RIFT       | **3.0**   | **3.0**  | **22.93**  |
-| SAITS               | 17.3      | 17.3     | 9.89       |
-| SAITS+RIFT          | **20.7**  | **20.7** | **9.40**   |
-| BRITS               | 6.4       | 6.4      | 7.26       |
-| BRITS+RIFT          | **9.6**   | **9.6**  | **6.87**   |
-| IMPUTEFORMER        | 8.8       | 8.8      | 9.57       |
-| IMPUTEFORMER + RIFT | **30.3**  | **30.3** | **4.61**   |
-
+Similarly to what observed with the Opportunity dataset, RIFT acted as a high-precision, low-recall imputor. The imputations performed by RIFT allow to improve the accuracy of all imputers in most configurations, proving its usefulness in supporting MV imputation.
 
 #### Missing Rate 5% (200.000 missing values)
 | Approach            | Precision | Recall   | RMSE       |
@@ -95,8 +69,59 @@ Similarly to what observed with the Opportunity dataset, RIFT acted as a high-pr
 | ImputeFormer + RIFT | **28.9**  | **28.9** | **5.10**   |
 
 
+#### Missing Rate 10% (400.000 missing values)
+| Approach            | Precision | Recall   | RMSE       |
+|---------------------|-----------|----------|------------|
+| RIFT (STANDALONE)   | 99.9      | 2.9      | 0.019      |
+| MEDIAN              | 17.7      | 17.7     | 9.56       |
+| MEDIAN+RIFT         | **19.8**  | **19.8** | **9.55**   |
+| MEAN                | 7.0       | 7.0      | 9.0695     |
+| MEAN+RIFT           | **9.7**   | **9.7**  | **9.060**  |
+| FFILL               | 50.4      | 50.4     | 1.8388     |
+| FFILL+RIFT          | **50.6**  | **50.6** | **1.837**  |
+| BFILL               | 50.3      | 50.3     | 1.8409     |
+| BFILL+RIFT          | **50.5**  | **50.5** | **1.83**   |
+| SPLINE              | 50.2      | 50.2     | 1.3983     |
+| SPLINE+RIFT         | **50.3**  | **50.3** | **1.397**  |
+| MICE                | **31.7**  | **31.7** | **2.8108** |
+| MICE+RIFT           | 31.6      | 31.6     | 2.8110     |
+| TIMESNET            | 0.01      | 0.01     | 26.12      |
+| TIMESNET+RIFT       | **3.0**   | **3.0**  | **22.93**  |
+| SAITS               | 17.3      | 17.3     | 9.89       |
+| SAITS+RIFT          | **20.7**  | **20.7** | **9.40**   |
+| BRITS               | 6.4       | 6.4      | 7.26       |
+| BRITS+RIFT          | **9.6**   | **9.6**  | **6.87**   |
+| IMPUTEFORMER        | 8.8       | 8.8      | 9.57       |
+| IMPUTEFORMER + RIFT | **30.3**  | **30.3** | **4.61**   |
 
-## DATASETS
+
+#### Missing Rate 20% (800.000 missing values)
+| Approach            | Precision | Recall   | RMSE       |
+|---------------------|-----------|----------|------------|
+| RIFT (STANDALONE)   | 100       | 3.06     | 0.0        |
+| MEDIAN              | 17.7      | 17.7     | 9.57       |
+| MEDIAN+RIFT         | **19.7**  | **19.7** | **9.56**   |
+| MEAN                | 7.0       | 7.0      | 9.07       |
+| MEAN+RIFT           | **9.6**   | **9.6**  | **9.064**  |
+| FFILL               | 49.5      | 49.5     | 1.99       |
+| FFILL+RIFT          | **49.7**  | **49.7** | **1.98**   |
+| BFILL               | 49.5      | 49.5     | 1.9814     |
+| BFILL+RIFT          | **49.7**  | **49.7** | **1.9802** |
+| SPLINE              | 49.0      | 49.0     | 1.4545     |
+| SPLINE+RIFT         | **49.1**  | **49.1** | **1.4532** |
+| MICE                | **27.0**  | **27.0** | **3.2016** |
+| MICE+RIFT           | 26.9      | 26.9     | 3.2023     |
+| TIMESNET            | 0.02      | 0.02     | 26.13      |
+| TIMESNET+RIFT       | **3.0**   | **3.0**  | **23.00**  |
+| SAITS               | 14.2      | 14.2     | 10.08      |
+| SAITS+RIFT          | **18.3**  | **18.3** | **9.89**   |
+| BRITS               | 5.7       | 5.7      | 7.85       |
+| BRITS+RIFT          | **8.9**   | **8.9**  | **7.33**   |
+| IMPUTEFORMER        | 9.1       | 9.1      | 9.89       |
+| IMPUTEFORMER + RIFT | **30.3**  | **30.3** | **4.61**   |
+
+
+## DATASETS 
 
 The **Datasets** folder contains both the original datasets (**Starting Datasets** folder) and the datasets with missing values (**Missing Datasets** folder), which were used for the experimental evaluation described in the paper.
 
